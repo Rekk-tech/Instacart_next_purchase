@@ -131,9 +131,19 @@ dmypy.json
 # Data Science / ML specific
 # Large datasets
 *.csv
+*.parquet
+*.feather
+*.hdf5
 data/raw/*.csv
 data/processed/*.csv
+data/processed/*.parquet
 data/staging/*.csv
+data/staging/*.parquet
+
+# Specific large files that exceed GitHub limits
+data/processed/user_product_features.parquet
+data/processed/customer_features.parquet
+data/processed/product_features.parquet
 
 # But keep small reference files
 !data/raw/departments.csv
