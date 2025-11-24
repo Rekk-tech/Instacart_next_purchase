@@ -1,0 +1,17 @@
+INSTACART EDA SUMMARY
+==================================================
+
+Total Orders: 3,421,083
+Total Users: 206,209
+Average Basket Size: 10.52
+Reorder Rate: 59.84%
+Average Orders per User: 16.59
+
+Exported Files:
+- kpis_summary.csv/.parquet
+- orders_by_day.csv/.parquet
+- orders_by_hour.csv/.parquet
+- top_products.csv/.parquet
+- customer_segments.csv/.parquet
+
+Generated: 2025-11-23 17:29:31.569995

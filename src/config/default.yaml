@@ -1,0 +1,154 @@
+# Default Configuration for Instacart Next Purchase Prediction
+
+# Data paths
+data:
+  raw_path: "./data/raw"
+  staging_path: "./data/staging"  
+  processed_path: "./data/processed"
+
+# Feature engineering
+features:
+  user_features:
+    - order_frequency
+    - recency_days
+    - total_orders
+    - avg_days_between_orders
+    - avg_basket_size
+    - unique_products
+    - reorder_ratio
+  
+  item_features:
+    - popularity_score
+    - reorder_probability
+    - avg_position_in_cart
+    - department_popularity
+    - aisle_popularity
+  
+  user_item_features:
+    - user_product_orders
+    - avg_add_to_cart_order
+    - last_order_days_ago
+    - streak_length
+  
+  time_features:
+    - days_since_prior_order
+    - order_hour_of_day
+    - order_dow
+    - is_weekend
+
+# Model configuration
+models:
+  xgboost:
+    n_estimators: 1000
+    max_depth: 8
+    learning_rate: 0.1
+    subsample: 0.8
+    colsample_bytree: 0.8
+    random_state: 42
+    n_jobs: -1
+    early_stopping_rounds: 50
+  
+  mlp:
+    hidden_layers: [512, 256, 128]
+    dropout_rate: 0.3
+    learning_rate: 0.001
+    batch_size: 1024
+    epochs: 100
+    patience: 10
+  
+  lstm:
+    lstm_units: 128
+    dropout: 0.2
+    learning_rate: 0.001
+    batch_size: 512
+    epochs: 50
+    sequence_length: 10
+  
+  tcn:
+    nb_filters: 64
+    kernel_size: 3
+    dilations: [1, 2, 4, 8, 16, 32]
+    nb_stacks: 1
+    dropout_rate: 0.1
+    learning_rate: 0.001
+    batch_size: 512
+    epochs: 50
+
+# Training configuration
+training:
+  test_size: 0.2
+  validation_size: 0.1
+  random_state: 42
+  stratify: true
+  
+  # Cross-validation
+  cv_folds: 5
+  cv_strategy: "time_series"
+  
+  # Evaluation metrics
+  metrics:
+    - precision_at_k
+    - recall_at_k
+    - f1_score
+    - auc_roc
+    - mean_average_precision
+  
+  # Precision@K evaluation
+  precision_at_k: [5, 10, 20, 50]
+
+# MLflow configuration
+mlflow:
+  experiment_name: "instacart_next_purchase"
+  tracking_uri: "http://localhost:5000"
+  artifact_location: "./experiments/mlflow"
+
+# Logging
+logging:
+  level: "INFO"
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+  file: "./logs/app.log"
+
+# Database (if using)
+database:
+  host: "localhost"
+  port: 5432
+  name: "instacart"
+  user: "postgres"
+  # password should be in environment variables
+
+# API configuration  
+api:
+  host: "0.0.0.0"
+  port: 8000
+  workers: 4
+  timeout: 300
+
+# Preprocessing
+preprocessing:
+  # Missing value handling
+  missing_value_strategy: "median"  # or "mean", "mode", "drop"
+  
+  # Outlier detection
+  outlier_method: "iqr"  # or "zscore", "isolation_forest"
+  outlier_threshold: 1.5
+  
+  # Scaling
+  scaling_method: "standard"  # or "minmax", "robust", "none"
+  
+  # Feature selection
+  feature_selection:
+    method: "mutual_info"  # or "chi2", "f_classif", "rfe"
+    k_best: 100
+
+# Ensemble configuration
+ensemble:
+  method: "stacking"  # or "voting", "blending"
+  meta_learner: "logistic_regression"
+  cv_folds: 5
+  
+  # Model weights (for voting)
+  weights:
+    xgboost: 0.4
+    mlp: 0.3
+    lstm: 0.2
+    tcn: 0.1

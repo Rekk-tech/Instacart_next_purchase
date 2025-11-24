@@ -1,0 +1,11 @@
+{
+  "strategy": "user_based",
+  "train_size": 1105234,
+  "test_size": 279383,
+  "train_reorder_rate": 0.5985601239194596,
+  "test_reorder_rate": 0.5987300587365731,
+  "train_users": 104967,
+  "test_users": 26242,
+  "random_seed": 42,
+  "timestamp": "2025-11-24T10:43:16.922896"
+}

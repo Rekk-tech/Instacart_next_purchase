@@ -1,0 +1,17 @@
+{
+  "model_info": {
+    "name": "logistic_regression",
+    "f1_score": 1.0,
+    "accuracy": 1.0
+  },
+  "demo_data": {
+    "total_samples": 10000,
+    "unique_users": 7747,
+    "unique_products": 4591,
+    "overall_accuracy": 0.8547
+  },
+  "generation_info": {
+    "timestamp": "2025-11-24T14:02:11.052618",
+    "model_used": "logistic_regression"
+  }
+}
