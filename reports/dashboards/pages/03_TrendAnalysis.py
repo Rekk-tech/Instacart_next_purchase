@@ -10,6 +10,9 @@ import numpy as np
 import plotly.express as px
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
+
+# Plotly config to suppress warnings
+plotly_config = {'displayModeBar': False}
 import seaborn as sns
 import matplotlib.pyplot as plt
 from datetime import datetime, timedelta
@@ -200,7 +203,7 @@ def show_time_patterns(orders, user_segment):
                     labels={'hour': 'Hour of Day', 'orders': 'Number of Orders'})
         fig.update_layout(showlegend=False)
         fig.update_traces(marker_color='lightblue')
-        st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(fig, width='stretch', config=plotly_config)
     
     with col2:
         st.markdown("#### 📅 Orders by Day of Week")
@@ -217,7 +220,7 @@ def show_time_patterns(orders, user_segment):
         fig.update_layout(showlegend=False)
         fig.update_traces(marker_color='lightcoral')
         fig.update_xaxes(tickangle=45)
-        st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(fig, width='stretch', config=plotly_config)
     
     # Heatmap
     st.markdown("#### 🔥 Order Intensity Heatmap")
@@ -248,7 +251,7 @@ def show_time_patterns(orders, user_segment):
             yaxis_title="Day of Week",
             height=400
         )
-        st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(fig, width='stretch', config=plotly_config)
     else:
         st.info("No data available for heatmap visualization")
 
@@ -277,7 +280,7 @@ def show_weekly_trends(orders, user_segment):
         dow_names = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
         dow_stats.index = [dow_names[i] for i in dow_stats.index]
         
-        st.dataframe(dow_stats, use_container_width=True)
+        st.dataframe(dow_stats, width='stretch')
     
     with col2:
         st.markdown("#### 🎯 Peak vs Off-Peak Analysis")
@@ -302,7 +305,7 @@ def show_weekly_trends(orders, user_segment):
         
         fig = px.pie(peak_analysis, values='Orders', names='Category',
                     title="Peak vs Off-Peak Distribution")
-        st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(fig, width='stretch', config=plotly_config)
     
     # Time between orders analysis
     st.markdown("#### ⏱️ Time Between Orders Analysis")
@@ -319,18 +322,19 @@ def show_weekly_trends(orders, user_segment):
                              title="Distribution of Days Between Orders",
                              labels={'days_since_prior_order': 'Days Since Prior Order', 'count': 'Frequency'},
                              nbins=30)
-            st.plotly_chart(fig, use_container_width=True)
+            st.plotly_chart(fig, width='stretch', config=plotly_config)
         
         with col2:
             # Box plot by order number
-            valid_gaps['order_group'] = pd.cut(valid_gaps['order_number'], 
+            valid_gaps = valid_gaps.copy()
+            valid_gaps.loc[:, 'order_group'] = pd.cut(valid_gaps['order_number'], 
                                              bins=[0, 5, 10, 20, 100], 
                                              labels=['1-5', '6-10', '11-20', '20+'])
             
             fig = px.box(valid_gaps, x='order_group', y='days_since_prior_order',
                         title="Days Between Orders by Order Number Group",
                         labels={'order_group': 'Order Number Group', 'days_since_prior_order': 'Days Between Orders'})
-            st.plotly_chart(fig, use_container_width=True)
+            st.plotly_chart(fig, width='stretch', config=plotly_config)
 
 def show_reorder_behavior(orders, user_segment):
     """Show reorder patterns and customer retention"""
@@ -350,7 +354,7 @@ def show_reorder_behavior(orders, user_segment):
                     title="Distribution of Order Numbers",
                     labels={'x': 'Order Number', 'y': 'Number of Orders'})
         fig.update_traces(marker_color='lightgreen')
-        st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(fig, width='stretch', config=plotly_config)
     
     with col2:
         st.markdown("#### 📈 Customer Journey Stages")
@@ -376,7 +380,7 @@ def show_reorder_behavior(orders, user_segment):
         
         fig = px.pie(values=category_dist.values, names=category_dist.index,
                     title="Customer Segments by Order History")
-        st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(fig, width='stretch', config=plotly_config)
     
     # Cohort analysis simulation
     st.markdown("#### 🎯 Customer Retention Patterns")
@@ -390,7 +394,7 @@ def show_reorder_behavior(orders, user_segment):
                  title="Customer Retention by Order Number",
                  labels={'x': 'Order Number', 'y': 'Retention Rate (%)'})
     fig.update_traces(line_color='red', line_width=3)
-    st.plotly_chart(fig, use_container_width=True)
+    st.plotly_chart(fig, width='stretch', config=plotly_config)
 
 def show_user_journey(orders, user_segment):
     """Show user journey and lifecycle analysis"""
@@ -430,7 +434,7 @@ def show_user_journey(orders, user_segment):
                          title="Distribution of Total Orders per User",
                          labels={'total_orders': 'Total Orders per User', 'count': 'Number of Users'},
                          nbins=20)
-        st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(fig, width='stretch', config=plotly_config)
     
     with col2:
         st.markdown("#### ⏰ Purchase Frequency Distribution")
@@ -441,7 +445,7 @@ def show_user_journey(orders, user_segment):
                              title="Distribution of Average Days Between Orders",
                              labels={'avg_days_between': 'Days Between Orders', 'count': 'Number of Users'},
                              nbins=20)
-            st.plotly_chart(fig, use_container_width=True)
+            st.plotly_chart(fig, width='stretch', config=plotly_config)
         else:
             st.info("No purchase frequency data available")
     
@@ -458,7 +462,7 @@ def show_user_journey(orders, user_segment):
     value_matrix = pd.crosstab(user_metrics['frequency_score'], user_metrics['recency_score'], 
                               margins=True, margins_name="Total")
     
-    st.dataframe(value_matrix, use_container_width=True)
+    st.dataframe(value_matrix, width='stretch')
     
     # Insights
     st.markdown("#### 💡 Key Insights")

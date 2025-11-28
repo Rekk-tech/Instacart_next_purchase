@@ -13,6 +13,9 @@ import numpy as np
 import plotly.express as px
 import plotly.graph_objects as go
 import sys
+
+# Plotly config to suppress warnings
+plotly_config = {'displayModeBar': False}
 from pathlib import Path
 import json
 from datetime import datetime
@@ -408,7 +411,7 @@ def display_prediction_results(prediction_result, user_id=None):
             }
         ))
         fig_gauge.update_layout(height=300)
-        st.plotly_chart(fig_gauge, use_container_width=True)
+        st.plotly_chart($1, config=plotly_config)
     
     with col2:
         # Confidence visualization
@@ -428,7 +431,7 @@ def display_prediction_results(prediction_result, user_id=None):
             color_continuous_scale='RdYlGn'
         )
         fig_conf.update_layout(showlegend=False, height=300)
-        st.plotly_chart(fig_conf, use_container_width=True)
+        st.plotly_chart($1, config=plotly_config)
     
     # Model info
     if user_id:
@@ -476,7 +479,7 @@ def display_recommendations(recommendations):
     display_recommendations_df.columns = col_names[:len(display_cols)]
     display_recommendations_df.index = range(1, len(display_recommendations_df) + 1)
     
-    st.dataframe(display_recommendations_df, use_container_width=True)
+    st.dataframe(display_recommendations_df, width='stretch')
     
     # Visual representation
     col1, col2 = st.columns(2)
@@ -494,7 +497,7 @@ def display_recommendations(recommendations):
             color_continuous_scale='Blues'
         )
         fig_top.update_layout(height=400, yaxis={'categoryorder': 'total ascending'})
-        st.plotly_chart(fig_top, use_container_width=True)
+        st.plotly_chart($1, config=plotly_config)
     
     with col2:
         # Department distribution
@@ -506,7 +509,7 @@ def display_recommendations(recommendations):
             color_discrete_sequence=px.colors.qualitative.Set3
         )
         fig_dept.update_layout(height=400)
-        st.plotly_chart(fig_dept, use_container_width=True)
+        st.plotly_chart($1, config=plotly_config)
 
 def main():
     """Main function for model demo page"""
@@ -560,7 +563,7 @@ def main():
         
         with col2:
             top_k = st.slider("Number of Recommendations", 5, 20, 10)
-            if st.button("🚀 Make Prediction", type="primary", use_container_width=True):
+            if st.button("🚀 Make Prediction", type="primary", width='stretch'):
                 with st.spinner("Making prediction..."):
                     # Make prediction
                     prediction_result = make_prediction(predictor, features)
@@ -592,7 +595,7 @@ def main():
                                 color_continuous_scale='Viridis'
                             )
                             fig_importance.update_layout(height=400, yaxis={'categoryorder': 'total ascending'})
-                            st.plotly_chart(fig_importance, use_container_width=True)
+                            st.plotly_chart($1, config=plotly_config)
                             
                         except Exception as e:
                             st.info("Feature importance not available")

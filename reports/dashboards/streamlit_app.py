@@ -39,13 +39,12 @@ except ImportError:
         return logging.getLogger(name)
 
 # Page configuration
-    st.set_page_config(
-        page_title="Sales & Customer Analytics",
-        page_icon="📊",
-        layout="wide",
-        initial_sidebar_state="expanded"
-    )# Global Layout
-st.set_page_config(page_title="Sales & Customer Analytics", layout="wide")
+st.set_page_config(
+    page_title="Sales & Customer Analytics",
+    page_icon="📊",
+    layout="wide",
+    initial_sidebar_state="expanded"
+)
 
 # Header Bar
 st.markdown(
@@ -55,17 +54,12 @@ st.markdown(
             <img src="https://via.placeholder.com/40" alt="Company Logo" style="margin-right: 10px;">
             <h1 style="margin: 0; font-size: 1.5rem;">Sales & Customer Analytics</h1>
         </div>
-        <div>
-            <p style="margin: 0; font-size: 1rem;">Updated: {datetime.now().strftime('%Y-%m-%d')}</p>
-        </div>
     </div>
     """,
     unsafe_allow_html=True
 )
 
-# Navigation Tabs
-tabs = ["💰 Tổng quan Doanh thu & Vận hành", "👥 Phân tích Khách hàng & Phân khúc"]
-selected_tab = st.sidebar.radio("Chọn Tab", tabs)
+# Navigation will be handled by main tabs below
 
 # Global Filters
 st.sidebar.markdown("### Bộ lọc chung")
@@ -291,7 +285,6 @@ def main():
             </div>
             <div>
                 <div style="font-size: 1.5rem; font-weight: 600;">Sales & Customer Analytics</div>
-                <div style="font-size: 0.9rem; opacity: 0.9;">Cập nhật: 21/11/2025</div>
             </div>
         </div>
         <div style="display: flex; align-items: center; gap: 1rem;">
@@ -508,14 +501,14 @@ def main():
 #                         hole=0.4)
 #         fig_pie.update_layout(height=400, showlegend=True, 
 #                              legend=dict(orientation="v", yanchor="middle", y=0.5, xanchor="left", x=1.02))
-#         st.plotly_chart(fig_pie, use_container_width=True)
+#         st.plotly_chart(fig_pie, width='stretch')
 #         
 #         # RFM Details Table
 #         rfm_df = pd.DataFrame({
 #             'Phân khúc': ['● Loyal Customers', '● Big Spenders', '● At Risk', '● New Customers', '● Lost Customers'],
 #             'Số lượng': [1248, 524, 786, 1092, 722]
 #         })
-#         st.dataframe(rfm_df, use_container_width=True, hide_index=True)
+#         st.dataframe(rfm_df, width='stretch', hide_index=True)
 #     
 #     with col2:
 #         st.markdown("### 📈 Tần suất và Giá trị TB của Phân khúc")
@@ -538,7 +531,7 @@ def main():
 #             xaxis=dict(title='Phân khúc khách hàng'),
 #             showlegend=True
 #         )
-#         st.plotly_chart(fig_combo, use_container_width=True)
+#         st.plotly_chart(fig_combo, width='stretch')
 #         
 #         # Quick stats like Power BI cards below chart
 #         stats_col1, stats_col2 = st.columns(2)
@@ -691,7 +684,7 @@ def show_rfm_dashboard(orders, products):
         fig_combo.update_yaxes(title_text="Giá trị TB ($)", secondary_y=True)
         fig_combo.update_layout(height=350, showlegend=True)
         
-        st.plotly_chart(fig_combo, use_container_width=True)
+        st.plotly_chart(fig_combo, width='stretch')
         
         # Simple, actionable insights
         st.markdown("""
@@ -910,7 +903,7 @@ def show_customer_analysis():
                         color_continuous_scale='Blues',
                         title="Số đơn hàng theo quốc gia")
         fig_geo.update_layout(height=300)
-        st.plotly_chart(fig_geo, use_container_width=True)
+        st.plotly_chart(fig_geo, width='stretch')
     
     with col2:
         st.markdown("#### 🏆 Chi tiết Top khách hàng")
@@ -921,7 +914,7 @@ def show_customer_analysis():
             'Đơn': ['259', '77', '236', '80', '102'],
             'Phân khúc': ['Loyal', 'Big Spender', 'Loyal', 'Big Spender', 'Loyal']
         })
-        st.dataframe(top_customers, use_container_width=True, hide_index=True)
+        st.dataframe(top_customers, width='stretch', hide_index=True)
         
         # Additional insights
         st.markdown("""

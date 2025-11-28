@@ -268,7 +268,7 @@ def create_order_distribution_charts(orders):
                 color_continuous_scale='Blues'
             )
             fig_dow.update_layout(showlegend=False, height=400)
-            st.plotly_chart(fig_dow, use_container_width=True)
+            st.plotly_chart(fig_dow, width='stretch')
         else:
             st.info("Day of week data not available")
     
@@ -286,7 +286,7 @@ def create_order_distribution_charts(orders):
             )
             fig_hour.update_traces(line=dict(color='#ff7f0e', width=3))
             fig_hour.update_layout(height=400)
-            st.plotly_chart(fig_hour, use_container_width=True)
+            st.plotly_chart(fig_hour, width='stretch')
         else:
             st.info("Hour data not available")
 
@@ -320,7 +320,7 @@ def create_user_behavior_analysis(orders):
             )
             fig_freq.update_traces(textposition='inside', textinfo='percent+label')
             fig_freq.update_layout(height=400)
-            st.plotly_chart(fig_freq, use_container_width=True)
+            st.plotly_chart(fig_freq, width='stretch')
         else:
             st.info("Order number data not available")
     
@@ -337,7 +337,7 @@ def create_user_behavior_analysis(orders):
                 color_discrete_sequence=['#2ca02c']
             )
             fig_days.update_layout(height=400, bargap=0.1)
-            st.plotly_chart(fig_days, use_container_width=True)
+            st.plotly_chart(fig_days, width='stretch')
         else:
             st.info("Days since prior order data not available")
 
